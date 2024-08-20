@@ -13,12 +13,12 @@ const Cells = ({ today, month, currentDay, handleModal, day, currentDate }) => {
       }
       onDoubleClick={() => handleModal(day)}
     >
-      {today}
+      <div>{today}</div>
       <div className='flex flex-col gap-1 p-1'>
         {day.events.map((event, index) => (
           <div
             className='bg-blue-600 text-white rounded-md'
-            key={index}
+            key={`${event?.name}${index}`}
           >
             {event.name} -{' '}
             {parseDate(event.time).hours + ':' + parseDate(event.time).minutes}

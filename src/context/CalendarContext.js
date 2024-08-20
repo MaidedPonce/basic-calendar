@@ -58,7 +58,9 @@ export const CalendarProvider = ({ children }) => {
       const existEvent = events.find(
         (event) => new Date(event.time).getTime() === selectedTime.getTime()
       )
-
+      if (selectedTime.getTime() < new Date().getTime()) {
+        return alert('You cannot create an event in the past.')
+      }
       if (!existEvent) {
         const newEvents = [...events, { time: selectedTime, name }]
         setEvents(newEvents)

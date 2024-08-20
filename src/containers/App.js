@@ -1,11 +1,11 @@
 import 'styles/App.css'
-import Calendar from 'components/Calendar'
+import CalendarContainer from './CalendarContainer'
 
 function App() {
   return (
-    <div className='App'>
-      <Calendar />
-    </div>
+    <main className='App'>
+      <CalendarContainer />
+    </main>
   )
 }
 
