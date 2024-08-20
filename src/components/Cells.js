@@ -20,7 +20,7 @@ const Cells = ({ today, month, currentDay, handleModal, day, currentDate }) => {
             className='bg-blue-600 text-white rounded-md'
             key={index}
           >
-            {event.title} -{' '}
+            {event.name} -{' '}
             {parseDate(event.time).hours + ':' + parseDate(event.time).minutes}
           </div>
         ))}

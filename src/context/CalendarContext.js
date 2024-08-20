@@ -1,4 +1,5 @@
-import { createContext, useEffect, useState } from 'react'
+import { createContext, useCallback, useEffect, useMemo, useState } from 'react'
+import { getAgenda } from 'services/agenda/get.agenda'
 import { getWeeks } from 'utils/getWeeks'
 import { isSameDay } from 'utils/isSameDay'
 
@@ -6,24 +7,31 @@ export const CalendarContext = createContext()
 
 export const CalendarProvider = ({ children }) => {
   const [currentDate, setCurrentMonth] = useState(new Date())
-  const [events, setEvents] = useState([])
+  const [events, setEvents] = useState([
+    {
+      time: new Date(2025, 0, 10, 0, 0),
+      // eslint-disable-next-line quotes
+      name: `Maided's birthday`,
+    },
+  ])
+
   const currentDay = new Date()
   const [month, setMonth] = useState(
     getWeeks(currentDate.getMonth(), currentDate.getFullYear())
   )
 
-  const nextMonth = () => {
+  const nextMonth = useCallback(() => {
     setCurrentMonth((prev) => new Date(prev.getFullYear(), prev.getMonth() + 1))
-  }
+  }, [])
 
-  const previousMonth = () => {
+  const previousMonth = useCallback(() => {
     setCurrentMonth((prev) => new Date(prev.getFullYear(), prev.getMonth() - 1))
-  }
+  }, [])
 
   const handleModal = (day) => {
     const timePattern = /^([01]\d|2[0-3]):([0-5]\d)$/ // Regex for HH:MM format
     let time = prompt('Please enter a time (HH:MM):')
-    let title = ''
+    let name = ''
 
     // Validate the time format
     while (time !== null && !timePattern.test(time)) {
@@ -34,10 +42,10 @@ export const CalendarProvider = ({ children }) => {
     }
 
     if (time) {
-      title = prompt('Enter the title of the event:')
+      name = prompt('Enter the name of the event:')
     }
 
-    if (title && time) {
+    if (name && time) {
       const [hours, minutes] = time.split(':')
       const selectedTime = new Date(
         day.date.getFullYear(),
@@ -52,7 +60,7 @@ export const CalendarProvider = ({ children }) => {
       )
 
       if (!existEvent) {
-        const newEvents = [...events, { title, time: selectedTime }]
+        const newEvents = [...events, { time: selectedTime, name }]
         setEvents(newEvents)
         localStorage.setItem('events', JSON.stringify(newEvents))
       } else {
@@ -64,7 +72,16 @@ export const CalendarProvider = ({ children }) => {
   const orderEvents = (day) => {
     return events.filter((event) => isSameDay(day, new Date(event.time)))
   }
-
+  const updatedMonth = useMemo(() => {
+    return getWeeks(currentDate.getMonth(), currentDate.getFullYear()).map(
+      (week) => {
+        return week.map((day) => ({
+          ...day,
+          events: orderEvents(day.date),
+        }))
+      }
+    )
+  }, [currentDate, events])
   useEffect(() => {
     const data = localStorage.getItem('events')
     if (data) {
@@ -73,18 +90,47 @@ export const CalendarProvider = ({ children }) => {
   }, [])
 
   useEffect(() => {
-    const updatedMonth = getWeeks(
-      currentDate.getMonth(),
-      currentDate.getFullYear()
-    ).map((week) => {
-      return week.map((day) => ({
-        ...day,
-        events: orderEvents(day.date),
-      }))
-    })
     setMonth(updatedMonth)
-  }, [currentDate, events])
+  }, [updatedMonth])
+  const [hasFetched, setHasFetched] = useState(false)
 
+  useEffect(() => {
+    const controller = new AbortController()
+    const { signal } = controller
+
+    if (hasFetched) return
+
+    getAgenda({ signal })
+      .then((data) => {
+        if (!signal.aborted) {
+          const getEvents = localStorage.getItem('events')
+          const parsedEvents = JSON.parse(getEvents) || []
+          const existingEventTimes = new Set(
+            parsedEvents.map((e) => new Date(e.time).getTime())
+          )
+          const newEvents = data
+            .map((event) => ({
+              ...event,
+              time: new Date(event.time),
+            }))
+            .filter((event) => !existingEventTimes.has(event.time.getTime()))
+
+          if (newEvents.length > 0) {
+            setEvents((dataSaved) => [...dataSaved, ...newEvents])
+          }
+          setHasFetched(true)
+        }
+      })
+      .catch((error) => {
+        if (!signal.aborted) {
+          console.error(error)
+        }
+      })
+
+    return () => {
+      controller.abort()
+    }
+  }, [hasFetched])
   return (
     <CalendarContext.Provider
       value={{

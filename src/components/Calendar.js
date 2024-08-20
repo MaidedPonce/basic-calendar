@@ -1,7 +1,7 @@
-import React, { useContext } from 'react'
-import CalendarHead from './CalendarHead'
+import React, { Suspense, lazy, useContext } from 'react'
 import { CalendarContext } from 'context/CalendarContext'
-import Cells from './Cells'
+const CalendarHead = lazy(() => import('./CalendarHead'))
+const Cells = lazy(() => import('./Cells'))
 
 const Calendar = () => {
   const {
@@ -13,7 +13,7 @@ const Calendar = () => {
     currentDay,
   } = useContext(CalendarContext)
   return (
-    <>
+    <Suspense fallback={<div>Loading...</div>}>
       <CalendarHead
         date={currentDate}
         nextMonth={nextMonth}
@@ -93,7 +93,7 @@ const Calendar = () => {
           </tbody>
         </table>
       </div>
-    </>
+    </Suspense>
   )
 }
 
