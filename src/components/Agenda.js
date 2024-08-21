@@ -14,7 +14,9 @@ const Agenda = () => {
   }, [events])
   return (
     <section className='flex flex-col lg:w-1/4'>
-      <h1 className='font-bold text-2xl m-4'>My agenda</h1>
+      <div className='font-bold text-2xl min-h-9 m-4'>
+        <h1>My agenda</h1>
+      </div>
 
       <ul className='lg:m-4 overflow-auto rounded-md shadow-md p-2 max-w-max m-auto'>
         {sortedEvents.length > 0 ? (

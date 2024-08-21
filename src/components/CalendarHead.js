@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { Suspense, lazy } from 'react'
 import Button from './Button'
-import { parseMonths } from 'utils/parseMonths'
+const CalendarTitle = lazy(() => import('./CalendarTitle'))
 
 const CalendarHead = ({ date, nextMonth, previousMonth }) => {
   return (
@@ -15,9 +15,9 @@ const CalendarHead = ({ date, nextMonth, previousMonth }) => {
           title='Next'
         />
       </div>
-      <h1 className='flex order-1 font-bold text-2xl md:order-2 items-start md:w-1/2'>
-        {parseMonths(date)} {date.getFullYear()}
-      </h1>
+      <Suspense fallback={<div>Loading...</div>}>
+        <CalendarTitle date={date} />
+      </Suspense>
     </div>
   )
 }

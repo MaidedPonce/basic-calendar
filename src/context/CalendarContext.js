@@ -6,7 +6,12 @@ import { isSameDay } from 'utils/isSameDay'
 export const CalendarContext = createContext()
 
 export const CalendarProvider = ({ children }) => {
-  const [currentDate, setCurrentMonth] = useState(new Date())
+  const savedDate =
+    JSON.parse(localStorage.getItem('currentMonth')) !== null
+      ? new Date(JSON.parse(localStorage.getItem('currentMonth')))
+      : new Date()
+
+  const [currentDate, setCurrentMonth] = useState(savedDate)
   const [events, setEvents] = useState([
     {
       time: new Date(2025, 0, 10, 0, 0),
@@ -14,7 +19,6 @@ export const CalendarProvider = ({ children }) => {
       name: `Maided's birthday`,
     },
   ])
-
   const currentDay = new Date()
   const [month, setMonth] = useState(
     getWeeks(currentDate.getMonth(), currentDate.getFullYear())
@@ -27,6 +31,14 @@ export const CalendarProvider = ({ children }) => {
   const previousMonth = useCallback(() => {
     setCurrentMonth((prev) => new Date(prev.getFullYear(), prev.getMonth() - 1))
   }, [])
+
+  const localDate = useCallback(() => {
+    return localStorage.setItem('currentMonth', JSON.stringify(currentDate))
+  }, [currentDate])
+
+  useEffect(() => {
+    localDate()
+  }, [localDate])
 
   const handleModal = (day) => {
     const timePattern = /^([01]\d|2[0-3]):([0-5]\d)$/ // Regex for HH:MM format
@@ -71,9 +83,19 @@ export const CalendarProvider = ({ children }) => {
     }
   }
 
-  const orderEvents = (day) => {
-    return events.filter((event) => isSameDay(day, new Date(event.time)))
-  }
+  const orderEvents = useCallback(
+    (day) => {
+      return events.filter((event) => isSameDay(day, new Date(event.time)))
+    },
+    [events]
+  )
+  useEffect(() => {
+    const current = JSON.parse(localStorage.getItem('currentMonth'))
+    if (current) {
+      setCurrentMonth(new Date(current))
+    }
+  }, [])
+
   const updatedMonth = useMemo(() => {
     return getWeeks(currentDate.getMonth(), currentDate.getFullYear()).map(
       (week) => {
@@ -83,7 +105,8 @@ export const CalendarProvider = ({ children }) => {
         }))
       }
     )
-  }, [currentDate, events])
+  }, [currentDate, orderEvents])
+
   useEffect(() => {
     const data = localStorage.getItem('events')
     if (data) {

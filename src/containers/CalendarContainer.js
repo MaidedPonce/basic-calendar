@@ -1,12 +1,14 @@
-import Agenda from 'components/Agenda'
+import React, { Suspense, lazy } from 'react'
 import Calendar from 'components/Calendar'
-import React from 'react'
+const Agenda = lazy(() => import('../components/Agenda'))
 
 const CalendarContainer = () => {
   return (
     <section className='flex justify-between flex-col lg:flex-row max-w-[1200px] mx-auto my-6'>
       <Calendar />
-      <Agenda />
+      <Suspense fallback={<div>Loading...</div>}>
+        <Agenda />
+      </Suspense>
     </section>
   )
 }

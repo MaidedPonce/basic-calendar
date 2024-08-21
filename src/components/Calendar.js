@@ -13,13 +13,13 @@ const Calendar = () => {
     currentDay,
   } = useContext(CalendarContext)
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <div className='flex flex-col lg:w-3/4'>
-        <CalendarHead
-          date={currentDate}
-          nextMonth={nextMonth}
-          previousMonth={previousMonth}
-        />
+    <div className='flex flex-col lg:w-3/4'>
+      <CalendarHead
+        date={currentDate}
+        nextMonth={nextMonth}
+        previousMonth={previousMonth}
+      />
+      <Suspense fallback={<div>Loading...</div>}>
         <div className='relative m-4 overflow-x-auto shadow-md sm:rounded-lg'>
           <table className='w-full text-sm text-left rtl:text-right text-gray-500'>
             <thead className='text-xs text-gray-700 uppercase '>
@@ -94,8 +94,8 @@ const Calendar = () => {
             </tbody>
           </table>
         </div>
-      </div>
-    </Suspense>
+      </Suspense>
+    </div>
   )
 }
 
