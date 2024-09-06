@@ -1,13 +1,23 @@
 import React from 'react'
 import { parseDate } from 'utils/parseDate'
 
-const Cells = ({ today, month, currentDay, handleModal, day, currentDate }) => {
+const Cells = ({
+  today,
+  month,
+  year,
+  currentDay,
+  handleModal,
+  day,
+  currentDate,
+}) => {
   return (
     <td
       className={
         month !== currentDate.getMonth()
           ? 'bg-slate-300'
-          : today === currentDay.getDate() && month === currentDay.getMonth()
+          : today === currentDay.getDate() &&
+            month === currentDay.getMonth() &&
+            year === currentDay.getFullYear()
           ? 'bg-blue-200'
           : 'bg-gray-50'
       }
@@ -17,7 +27,7 @@ const Cells = ({ today, month, currentDay, handleModal, day, currentDate }) => {
       <div className='flex flex-col gap-1 p-1'>
         {day.events.map((event, index) => (
           <div
-            className='bg-blue-600 text-white rounded-md'
+            className='text-white bg-blue-600 rounded-md'
             key={`${event?.name}${index}`}
           >
             {event.name} -{' '}

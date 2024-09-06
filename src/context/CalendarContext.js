@@ -1,5 +1,4 @@
 import { createContext, useCallback, useEffect, useMemo, useState } from 'react'
-import { getAgenda } from 'services/agenda/get.agenda'
 import { getWeeks } from 'utils/getWeeks'
 import { isSameDay } from 'utils/isSameDay'
 
@@ -117,9 +116,9 @@ export const CalendarProvider = ({ children }) => {
   useEffect(() => {
     setMonth(updatedMonth)
   }, [updatedMonth])
-  const [hasFetched, setHasFetched] = useState(false)
+  /*  const [hasFetched, setHasFetched] = useState(false)
 
-  useEffect(() => {
+   useEffect(() => {
     const controller = new AbortController()
     const { signal } = controller
 
@@ -155,7 +154,7 @@ export const CalendarProvider = ({ children }) => {
     return () => {
       controller.abort()
     }
-  }, [hasFetched])
+  }, [hasFetched]) */
   return (
     <CalendarContext.Provider
       value={{
