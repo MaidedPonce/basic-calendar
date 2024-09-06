@@ -11,7 +11,7 @@ This is a React-based calendar application designed to manage and visualize even
 
 ### Installation
 
-`git clone https://gitlab.com/Altomobile/altomobile_react_challenge_maided_ponce.git`
+`git clone git@github.com:MaidedPonce/basic-calendar.git`
 
 `yarn add
 `
