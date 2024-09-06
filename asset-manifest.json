@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/basic-calendar/static/css/main.9708d778.css",
+    "main.js": "/basic-calendar/static/js/main.fdddb317.js",
+    "static/js/377.92518f88.chunk.js": "/basic-calendar/static/js/377.92518f88.chunk.js",
+    "static/js/858.adbf9873.chunk.js": "/basic-calendar/static/js/858.adbf9873.chunk.js",
+    "static/js/684.4096869b.chunk.js": "/basic-calendar/static/js/684.4096869b.chunk.js",
+    "static/js/453.7c6969db.chunk.js": "/basic-calendar/static/js/453.7c6969db.chunk.js",
+    "static/js/904.67e827fb.chunk.js": "/basic-calendar/static/js/904.67e827fb.chunk.js",
+    "index.html": "/basic-calendar/index.html",
+    "main.9708d778.css.map": "/basic-calendar/static/css/main.9708d778.css.map",
+    "main.fdddb317.js.map": "/basic-calendar/static/js/main.fdddb317.js.map",
+    "377.92518f88.chunk.js.map": "/basic-calendar/static/js/377.92518f88.chunk.js.map",
+    "858.adbf9873.chunk.js.map": "/basic-calendar/static/js/858.adbf9873.chunk.js.map",
+    "684.4096869b.chunk.js.map": "/basic-calendar/static/js/684.4096869b.chunk.js.map",
+    "453.7c6969db.chunk.js.map": "/basic-calendar/static/js/453.7c6969db.chunk.js.map",
+    "904.67e827fb.chunk.js.map": "/basic-calendar/static/js/904.67e827fb.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.9708d778.css",
+    "static/js/main.fdddb317.js"
+  ]
+}

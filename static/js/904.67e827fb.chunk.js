@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkbasic_calendar=self.webpackChunkbasic_calendar||[]).push([[904],{904:(e,r,t)=>{t.r(r),t.d(r,{default:()=>s});t(43);function a(e){return["January","February","March","April","May","June","July","August","September","October","November","December"][e.getMonth()]}var l=t(579);const s=e=>{let{date:r}=e;return(0,l.jsx)("div",{className:"flex order-1 font-bold text-2xl md:order-2 items-start md:w-1/2",children:(0,l.jsxs)("h1",{children:[a(r)," ",r.getFullYear()]})})}}}]);
+//# sourceMappingURL=904.67e827fb.chunk.js.map
